@@ -356,3 +356,6 @@ HELP.md
 */.settings
 **/.classpath
 **/.factorypath
+**/.mvn
+**/src/test
+**/target
