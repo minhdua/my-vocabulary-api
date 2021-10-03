@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @Document(collection = "Structure")
-public class Structure extends AuditEntity{
+public class Structure extends AuditEntity {
 	private String formula;
 	private String description;
 	private Set<String> documentReferences;

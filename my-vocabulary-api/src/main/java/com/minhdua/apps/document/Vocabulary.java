@@ -4,15 +4,15 @@ import java.util.Set;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.experimental.SuperBuilder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @Document(collection = "Vocabulary")
-public class Vocabulary extends AuditEntity{
+public class Vocabulary extends AuditEntity {
 	private String originWord;
 	private Language sourceLanguage;
 	private Set<Translation> translations;

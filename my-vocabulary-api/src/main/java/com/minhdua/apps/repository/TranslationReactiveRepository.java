@@ -4,6 +4,6 @@ import com.minhdua.apps.document.Translation;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
-public interface TranslationReactiveRepository extends ReactiveMongoRepository<Translation,String>{
-	
+public interface TranslationReactiveRepository extends ReactiveMongoRepository<Translation, String> {
+
 }

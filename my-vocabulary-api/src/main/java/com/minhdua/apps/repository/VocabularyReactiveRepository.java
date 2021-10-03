@@ -4,6 +4,6 @@ import com.minhdua.apps.document.Vocabulary;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
-public interface VocabularyReactiveRepository extends ReactiveMongoRepository<Vocabulary,String>{
-    
+public interface VocabularyReactiveRepository extends ReactiveMongoRepository<Vocabulary, String> {
+
 }

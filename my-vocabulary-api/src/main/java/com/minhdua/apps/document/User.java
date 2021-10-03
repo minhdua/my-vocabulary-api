@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Document(collection = "User")
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 	private String username;
 	private String password;
 	private Profile profile;

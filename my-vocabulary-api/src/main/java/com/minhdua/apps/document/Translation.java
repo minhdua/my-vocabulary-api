@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 @Document(collection = "Translation")
-public class Translation extends BaseEntity{
+public class Translation extends BaseEntity {
 	private Type type;
 	private String pronunciation;
 	private String destinationLanguage;

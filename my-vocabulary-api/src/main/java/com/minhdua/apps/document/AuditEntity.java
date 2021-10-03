@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 
 @Data
 @SuperBuilder
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 public abstract class AuditEntity extends BaseEntity {
 	@DateTimeFormat(pattern = "dd-MM-yyy HH:mm:ss")
 	@CreatedDate

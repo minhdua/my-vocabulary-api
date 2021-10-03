@@ -6,8 +6,8 @@ import org.springframework.data.annotation.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder.Default;
-import lombok.experimental.SuperBuilder;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @AllArgsConstructor
