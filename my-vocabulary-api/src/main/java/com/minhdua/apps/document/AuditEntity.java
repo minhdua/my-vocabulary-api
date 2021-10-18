@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
@@ -27,7 +29,11 @@ public abstract class AuditEntity extends BaseEntity {
 	@DateTimeFormat(pattern = "dd-MM-yyy HH:mm:ss")
 	private LocalDateTime updateDate;
 	@CreatedBy
-	private String createBy;
+	@DBRef
+	private User createBy;
+	@DBRef
 	@LastModifiedBy
-	private String updateBy;
+	private User updateBy;
+	@Version
+	private Integer version;
 }

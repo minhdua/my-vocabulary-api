@@ -1,9 +1,10 @@
 package com.minhdua.apps.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import com.minhdua.apps.document.Profile;
+import com.minhdua.apps.document.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,6 @@ public class UserDto extends BaseDto {
 	private Boolean isCredentialsNonExpired;
 	private Boolean isAccountNonLocked;
 	private Boolean isAccountNonExpired;
-	protected List<String> roles;
+	protected Set<Role> roles;
 	private LocalDateTime lastLoginDate;
 }

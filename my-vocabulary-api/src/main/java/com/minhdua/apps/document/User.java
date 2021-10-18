@@ -1,9 +1,14 @@
 package com.minhdua.apps.document;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Builder.Default;
@@ -31,9 +36,14 @@ public class User extends BaseEntity {
 	private Boolean isAccountNonLocked = true;
 	@Default
 	private Boolean isAccountNonExpired = true;
+	@DBRef
 	@Default
-	private Set<Role> roles = Set.of(Role.builder().shortName("USER").fullName("USER_ROLE").build());
+	private Set<Role> roles = new HashSet<>();
+	@CreatedDate
 	private LocalDateTime createDate;
+	@LastModifiedDate
 	private LocalDateTime updateDate;
 	private LocalDateTime lastLoginDate;
+	@Version
+	private Integer version;
 }

@@ -41,12 +41,17 @@ public abstract class BaseService<E extends BaseEntity, D extends BaseDto, R ext
 	}
 
 	public Mono<?> findByIdOrSave(E entity) {
+		return repository.findById(entity.getId()).map(e -> modelMapper.map(e, getDtoClass()))
+				.switchIfEmpty(Mono.defer(() -> save(entity)));
+	}
+
+	public Mono<?> saveOrThrow(E entity) {
 		return repository.findById(entity.getId()).flatMap(e -> {
 			return Mono.error(AlreadyExistsException::new);
 		}).switchIfEmpty(Mono.defer(() -> save(entity)));
 	}
 
-	public Mono<?> findByIdOrUpdate(E entity) {
+	public Mono<?> updateOrThrow(E entity) {
 		return repository.findById(entity.getId()).flatMap(e -> {
 			return save(entity);
 		}).switchIfEmpty(Mono.defer(() -> Mono.error(NotFoundException::new)));

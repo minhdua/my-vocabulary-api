@@ -15,4 +15,9 @@ import lombok.experimental.SuperBuilder;
 public class Role extends AuditEntity {
 	private String shortName;
 	private String fullName;
+
+	@Override
+	public String toString() {
+		return fullName;
+	}
 }

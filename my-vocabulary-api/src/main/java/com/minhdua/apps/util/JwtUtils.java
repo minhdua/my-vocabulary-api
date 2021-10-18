@@ -8,7 +8,6 @@ import java.util.Map;
 import com.minhdua.apps.document.User;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -22,10 +21,6 @@ public class JwtUtils {
 	@Value("${com.mindua.apps.secret-key}")
 	private String secret;
 
-	public static String bCryptEncoder(String key) {
-		var encoder = new BCryptPasswordEncoder();
-		return encoder.encode(key);
-	}
 
 	public String encoder(String key) {
 		return Base64.getEncoder().encodeToString(key.getBytes());

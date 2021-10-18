@@ -1,6 +1,8 @@
 package com.minhdua.apps.dto;
 
-import java.util.List;
+import java.util.Set;
+
+import com.minhdua.apps.document.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +18,5 @@ public class UserInfoPublic extends BaseDto {
 	private String firstName;
 	private String lastName;
 	private String photo;
-	protected List<String> roles;
+	protected Set<Role> roles;
 }
