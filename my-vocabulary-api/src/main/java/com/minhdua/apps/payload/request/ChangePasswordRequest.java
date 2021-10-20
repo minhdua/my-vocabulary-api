@@ -8,14 +8,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+@NoArgsConstructor
+@Data
+public class ChangePasswordRequest {
 	@NotBlank
-	private String username;
-
-	@NotBlank(message = "Not null")
 	@Password
-	private String password;
+	private String oldPassword;
+
+	@NotBlank
+	@Password
+	private String newPassword;
+
+	@NotBlank
+	@Password
+	private String passwordRetyping;
 }

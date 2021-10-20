@@ -7,7 +7,6 @@ import com.minhdua.apps.repository.UserReactiveRepository;
 import com.minhdua.apps.service.AuthService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -28,19 +27,18 @@ public class AuthFunctions extends FunctionConfig {
 	PasswordEncoder encoder;
 
 	public Mono<ServerResponse> getToken(ServerRequest serverRequest) {
-		var body = serverRequest.bodyToMono(LoginRequest.class);
-		var result = body.flatMap(authService::getToken);
-		return process(result);
+		return serverRequest.bodyToMono(LoginRequest.class).flatMap(payload -> {
+			return validator.validate(payload).flatMap(authService::getToken).flatMap(this::process);
+		});
 	}
 
-	public Mono<ServerResponse> register(ServerRequest request) {
-		var body = request.bodyToMono(SignupRequest.class);
-		var result = body.flatMap(authService::signup);
-		return process(result);
+	public Mono<ServerResponse> register(ServerRequest serverRequest) {
+		return serverRequest.bodyToMono(SignupRequest.class).flatMap(payload -> {
+			return validator.validate(payload).flatMap(authService::signup).flatMap(this::process);
+		});
 	}
 
-	public Mono<ServerResponse> hello(ServerRequest request) {
-		return authService.hello()
-				.flatMap(data -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(data));
+	public Mono<ServerResponse> profile(ServerRequest request) {
+		return authService.profile().flatMap(this::process);
 	}
 }

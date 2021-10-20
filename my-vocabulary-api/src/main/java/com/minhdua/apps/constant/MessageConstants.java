@@ -13,11 +13,13 @@ public enum MessageConstants {
 	DELETE_FAILED("RESOURCE0008F", "Delete {0} failed}."),
 	DELETE_FAILED_WITH("RESOURCE0008AF", "Delete {0} failed with {1}."),
 	ACCOUNT_OR_PASSWORD_WRONG("AUTH0009F", "account or password wrong."),
-	AUTHENTICATION_FAILED("AUTH0010F", "Authentication Failed"), GET_SUCCESS("RESOURCE0001S", "Get {0} success."),
-	LIST_SUCCESS("RESOURCE0002S", "List {0} success."), SAVE_SUCCESS("RESOURCE0003S", "Save {0} success."),
-	UPDATE_SUCCESS("RESOURCE0004S", "Update {0} success."),
+	AUTHENTICATION_FAILED("AUTH0010F", "Authentication Failed."), GET_SUCCESS("RESOURCE0001S", "Get {0} success."),
+	PAYLOAD_NOT_FOUND("VALID001F", "payload body required."), LIST_SUCCESS("RESOURCE0002S", "List {0} success."),
+	DATA_INVALID("VALID002F","Data is invalid."),
+	SAVE_SUCCESS("RESOURCE0003S", "Save {0} success."), UPDATE_SUCCESS("RESOURCE0004S", "Update {0} success."),
 	AUTHENTICATION_SUCCESSFUL("AUTH0001S", "Authentication successful."),
 	REGISTRATION_SUCCESSFUL("AUTH0002S", "New user register success.");
+
 	String code;
 	String message;
 

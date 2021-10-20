@@ -26,7 +26,7 @@ import reactor.core.publisher.Mono;
 
 @SpringBootApplication(scanBasePackages = { "com.minhdua.apps.repository", "com.minhdua.apps.service",
 		"com.minhdua.apps.controller", "com.minhdua.apps.config", "com.minhdua.apps.util", "com.minhdua.apps.functions",
-		"com.minhdua.apps.router", })
+		"com.minhdua.apps.router", "com.minhdua.apps.validation" })
 @EnableReactiveMongoAuditing
 public class VocabularyApplication implements CommandLineRunner {
 	private static Logger LOG = LoggerFactory.getLogger(VocabularyApplication.class);

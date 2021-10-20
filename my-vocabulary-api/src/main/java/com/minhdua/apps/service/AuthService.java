@@ -3,6 +3,8 @@ package com.minhdua.apps.service;
 import static com.minhdua.apps.constant.MessageConstants.AUTHENTICATION_SUCCESSFUL;
 import static com.minhdua.apps.constant.MessageConstants.REGISTRATION_SUCCESSFUL;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minhdua.apps.document.User;
 import com.minhdua.apps.dto.UserDto;
@@ -15,6 +17,7 @@ import com.minhdua.apps.payload.request.SignupRequest;
 import com.minhdua.apps.payload.response.JwtResponse;
 import com.minhdua.apps.payload.response.SignupResponse;
 import com.minhdua.apps.repository.UserReactiveRepository;
+import com.minhdua.apps.util.AuthUtils;
 import com.minhdua.apps.util.JwtUtils;
 import com.minhdua.apps.util.UuidUtils;
 
@@ -41,6 +44,9 @@ public class AuthService {
 
     @Autowired
     JwtUtils jwtUtil;
+
+    @Autowired
+    AuthUtils authUtils;
 
     public Mono<Boolean> isMatchPassword(String password, String passwordRetyping) {
         return Mono.just(password.equals(passwordRetyping));
@@ -77,17 +83,20 @@ public class AuthService {
         var password = loginRequest.getPassword();
         return userRepository.findByUsername(username).defaultIfEmpty(new User()).flatMap(user -> {
             if (user.getId() != null && encoder.matches(password, user.getPassword())) {
-                var token = jwtUtil.generateToken(user);
-                var data = modelMapper.map(user, UserInfoPublic.class);
-                var response = JwtResponse.builder().data(data).token(token).build();
-                response.setMessage(AUTHENTICATION_SUCCESSFUL);
-                return Mono.just(response);
+                user.setLastLoginDate(LocalDateTime.now());
+                return userRepository.save(user).flatMap(usr -> {
+                    var data = modelMapper.map(usr, UserInfoPublic.class);
+                    var token = jwtUtil.generateToken(usr);
+                    var response = JwtResponse.builder().data(data).token(token).build();
+                    response.setMessage(AUTHENTICATION_SUCCESSFUL);
+                    return Mono.just(response);
+                });
             }
             return Mono.error(AccountOrPasswordWrongException.getInstance().withDefault());
         });
     }
 
-    public Mono<String> hello() {
-        return Mono.just("hello");
+    public Mono<UserDto> profile() {
+        return authUtils.getSecurityContextHolderUser().map(user -> modelMapper.map(user, UserDto.class));
     }
 }

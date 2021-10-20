@@ -54,6 +54,10 @@ public interface MessageException<E extends Throwable> {
 		return createInstant(getMessageConstants().getCode(), getMessageDefault());
 	}
 
+	default E withMessage(String message) {
+		return createInstant(getMessageConstants().getCode(), message);
+	}
+
 	default String getMessageDefault() {
 		var messageConstants = getMessageConstants();
 		return getFromObjects(messageConstants, "Resource");

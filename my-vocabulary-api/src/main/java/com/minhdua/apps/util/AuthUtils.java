@@ -1,17 +1,24 @@
 package com.minhdua.apps.util;
 
+import javax.naming.AuthenticationException;
+
 import com.minhdua.apps.constant.enums.ERole;
 import com.minhdua.apps.constant.enums.EUser;
 import com.minhdua.apps.document.Profile;
 import com.minhdua.apps.document.Role;
 import com.minhdua.apps.document.User;
 import com.minhdua.apps.repository.RoleReactiveRepository;
+import com.minhdua.apps.repository.UserReactiveRepository;
 import com.minhdua.apps.service.RoleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -21,6 +28,10 @@ public class AuthUtils {
 	RoleService roleService;
 	@Autowired
 	RoleReactiveRepository roleRepository;
+	@Autowired
+	UserReactiveRepository userRepository;
+	@Autowired
+	JwtUtils jwtUtils;
 
 	public static String bCryptEncoder(String key) {
 		var encoder = new BCryptPasswordEncoder();
@@ -78,4 +89,15 @@ public class AuthUtils {
 		return false;
 	}
 
+	public Mono<User> getSecurityContextHolderUser() {
+		return ReactiveSecurityContextHolder.getContext().map(SecurityContext::getAuthentication)
+				.filter(Authentication::isAuthenticated).map(Authentication::getPrincipal).map(String.class::cast)
+				.flatMap(jwtUtils::getClaimsFromToken).map(Claims::getSubject).flatMap(userRepository::findByUsername)
+				.switchIfEmpty(Mono.defer(() -> {
+					var userDefault = EUser.USER_SYSTEM.getUser();
+					var username = userDefault.getUsername();
+					return userRepository.findByUsername(username)
+							.switchIfEmpty(Mono.error(new AuthenticationException()));
+				}));
+	}
 }

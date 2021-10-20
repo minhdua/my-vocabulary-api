@@ -4,7 +4,8 @@ import static com.minhdua.apps.constant.MessageConstants.ACCOUNT_OR_PASSWORD_WRO
 
 import com.minhdua.apps.constant.MessageConstants;
 
-public class AccountOrPasswordWrongException extends ServerException implements MessageException {
+public class AccountOrPasswordWrongException extends ServerException
+		implements MessageException<AccountOrPasswordWrongException> {
 
 	@Override
 	public MessageConstants getMessageConstants() {

@@ -14,7 +14,7 @@ public class AuthRouter {
 	public RouterFunction<ServerResponse> root(AuthFunctions authFunctions) {
 		return RouterFunctions.route().POST("api/auth/token", authFunctions::getToken)
 				.POST("api/auth/signup", authFunctions::register)
-				.GET("api/auth/hello", authFunctions::hello).build();
+				.GET("api/profile", authFunctions::profile).build();
 
 	}
 }

@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import com.minhdua.apps.document.Role;
 import com.minhdua.apps.document.User;
+import com.minhdua.apps.dto.UserDto;
 import com.minhdua.apps.dto.UserInfoPublic;
 
 import org.modelmapper.Conditions;
@@ -36,6 +37,17 @@ public class ModelMapperConfig {
 				}).map(source, destination.getRoles());
 			}
 		});
+
+		modelMapper.typeMap(User.class, UserDto.class).addMappings(new PropertyMap<User, UserDto>() {
+			@Override
+			protected void configure() {
+				when(ctx -> !((User) ctx.getSource()).getRoles().isEmpty()).using(ctx -> {
+					var roles = ((User) ctx.getSource()).getRoles();
+					return roles.stream().map(Role::getFullName).collect(Collectors.toSet());
+				}).map(source, destination.getRoles());
+			}
+		});
+
 		return modelMapper;
 	}
 }

@@ -1,7 +1,8 @@
 package com.minhdua.apps.payload.request;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
+import com.minhdua.apps.validation.Password;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,14 +13,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignupRequest {
 	@NotBlank
-	@Size(min = 3, max = 20)
 	private String username;
 
+	@Password
 	@NotBlank
-	@Size(min = 6, max = 40)
 	private String password;
 
+	@Password
 	@NotBlank
-	@Size(min = 6, max = 40)
 	private String passwordRetyping;
 }

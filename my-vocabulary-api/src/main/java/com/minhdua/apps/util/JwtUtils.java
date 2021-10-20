@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import reactor.core.publisher.Mono;
 
 @Component
 public class JwtUtils {
@@ -20,7 +21,6 @@ public class JwtUtils {
 	private String expireTimeMiliSec;
 	@Value("${com.mindua.apps.secret-key}")
 	private String secret;
-
 
 	public String encoder(String key) {
 		return Base64.getEncoder().encodeToString(key.getBytes());
@@ -39,25 +39,18 @@ public class JwtUtils {
 				.signWith(SignatureAlgorithm.HS512, encoder(secret)).compact();
 	}
 
-	public Claims getClaimsFromToken(String token) {
-		return Jwts.parser().setSigningKey(encoder(secret)).parseClaimsJws(token).getBody();
+	public Mono<Claims> getClaimsFromToken(String token) {
+		try {
+			var jwt = Jwts.parser().setSigningKey(encoder(secret)).parseClaimsJws(token).getBody();
+			return Mono.just(jwt);
+		} catch (Exception e) {
+			return Mono.error(e);
+		}
+
 	}
 
-	public String getUsernameFromToken(String token) {
-		return getClaimsFromToken(token).getSubject();
-	}
-
-	public Date getExpirationDate(String token) {
-		return getClaimsFromToken(token).getExpiration();
-	}
-
-	public Boolean isTokenExpired(String token) {
-		Date expirationDate = getExpirationDate(token);
-		return expirationDate.before(new Date());
-	}
-
-	public Boolean isTokenValidated(String token) {
-		return !isTokenExpired(token);
+	public Mono<String> getUsernameFromToken(String token) {
+		return getClaimsFromToken(token).map(Claims::getSubject);
 	}
 
 }
