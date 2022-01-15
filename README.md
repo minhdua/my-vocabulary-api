@@ -1,2 +1,2 @@
 # my-vocabulary-api
-project vocabulary management using spring webflux, mongodb
+project vocabulary management using spring python, django, mongodb
